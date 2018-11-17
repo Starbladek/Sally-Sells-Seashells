@@ -29,6 +29,10 @@ public class GameMaster : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Application.Quit();
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("Main_Menu");

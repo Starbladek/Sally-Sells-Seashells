@@ -27,6 +27,11 @@ public class FighterHandler : MonoBehaviour
 	
 	void Update ()
     {
+        if (myRigidbody.velocity.x > 0)
+            GetComponent<SpriteRenderer>().flipX = false;
+        else
+            GetComponent<SpriteRenderer>().flipX = true;
+
         switch(state)
         {
             case State.Idle:
@@ -77,6 +82,7 @@ public class FighterHandler : MonoBehaviour
                 LeanTween.moveY(gameObject, idleStart.y, 0.5f).setEase(LeanTweenType.linear).setOnComplete(() =>
                 {
                     state = State.Idle;
+                    GetComponent<Animator>().Play("Idle");
                 });
             });
         }
@@ -86,6 +92,7 @@ public class FighterHandler : MonoBehaviour
     {
         if (state == State.Idle)
         {
+            GetComponent<Animator>().Play("Diving");
             LeanTween.value(mainCamera.orthographicSize, cameraActiveSize, 1).setEase(LeanTweenType.easeOutQuad).setOnUpdate((float val) =>
             {
                 mainCamera.orthographicSize = val;
@@ -99,6 +106,7 @@ public class FighterHandler : MonoBehaviour
                 {
                     state = State.Active;
                     myRigidbody.bodyType = RigidbodyType2D.Dynamic;
+                    GetComponent<Animator>().Play("Swimming");
                 });
             });
         }
