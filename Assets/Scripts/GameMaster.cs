@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameMaster : MonoBehaviour
     [HideInInspector]
     public int farthestCheckpoint;
 
-
+    public Text shellText;
 
     void Start()
     {
@@ -34,12 +35,14 @@ public class GameMaster : MonoBehaviour
     public void IncrementShellCount(int amount)
     {
         shellCount += amount;
+        shellText.text = shellCount.ToString();
         //print(shellCount);
     }
 
     public void DecrementShellCount(int amount)
     {
         shellCount -= amount;
+        shellText.text = shellCount.ToString();
         //print(shellCount);
     }
 }
