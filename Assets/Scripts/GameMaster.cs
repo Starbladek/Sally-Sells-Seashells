@@ -37,6 +37,11 @@ public class GameMaster : MonoBehaviour
         {
             SceneManager.LoadScene("Main_Menu");
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene("Stage2");
+        }
     }
 
 
