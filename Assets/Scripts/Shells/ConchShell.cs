@@ -21,6 +21,12 @@ public class ConchShell : MonoBehaviour
     {
         lifeTimerLength = Random.Range(minLifeLength, maxLifeLength);
         lifeTimer = lifeTimerLength;
+
+        transform.localScale = new Vector2(0.2f, 0.2f);
+        GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+
+        LeanTween.scale(gameObject, new Vector2(0.4f, 0.4f), 0.5f).setEase(LeanTweenType.easeOutExpo);
+        LeanTween.alpha(gameObject, 1, 0.5f).setEase(LeanTweenType.easeOutExpo);
     }
 
     void Update()
