@@ -36,8 +36,13 @@ public class ConchShell : MonoBehaviour
             lifeTimer -= Time.deltaTime;
             if (lifeTimer <= 0)
             {
-                shellSpawner.currentNumberOfShells--;
-                Destroy(gameObject);
+                lifeTimer = 999;    //bluh
+                LeanTween.moveY(gameObject, transform.position.y - 0.25f, 2).setEase(LeanTweenType.easeInCubic);
+                LeanTween.alpha(gameObject, 0, 2).setEase(LeanTweenType.easeInCubic).setOnComplete(() =>
+                {
+                    shellSpawner.currentNumberOfShells--;
+                    Destroy(gameObject);
+                });
             }
         }
     }
@@ -46,6 +51,7 @@ public class ConchShell : MonoBehaviour
     {
         if (!clicked)
         {
+            LeanTween.cancel(gameObject);
             clicked = true;
             GameMaster.instance.IncrementShellCount(shellValue);
             LeanTween.alpha(gameObject, 0, 1);
