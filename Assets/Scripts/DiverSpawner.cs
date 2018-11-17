@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DiverSpawner : MonoBehaviour
 {
+    public int farthestCheckpoint = 1;
     public float maximumActiveDiverCount;
     int currentActiveDiverCount = 0;
-    int farthestCheckpoint = 1;
     public GameObject[] checkpointObjects;
 
     public GameObject diverPrefab;
