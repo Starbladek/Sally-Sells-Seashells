@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Diver : MonoBehaviour
 {
-    public float movementSpeed;
-    public int carryCapacity;
+    float movementSpeed;
+    int carryCapacity;
 
     Vector2 startPos;
     public List<GameObject> checkpoints;
-    public int farthestCheckpoint;
+    int farthestCheckpoint;
     int checkpointNum = 0;
 
     Vector2 prevCheckpoint;
@@ -18,10 +18,11 @@ public class Diver : MonoBehaviour
     bool divingDown = true;
 
     bool isScrounging;
-    public float scroungingTimerLength;
+    float scroungingTimerLength;
     float scroungingTimer;
 
     Animator animator;
+    DiverSpawner diverSpawner;
 
 
 
@@ -34,8 +35,13 @@ public class Diver : MonoBehaviour
         scroungingTimer = scroungingTimerLength;
     }
 
-    public void Initialize()
+    public void Initialize(float movementSpeed, int carryCapacity, int farthestCheckpoint, float scroungingTimerLength, DiverSpawner diverSpawner)
     {
+        this.movementSpeed = movementSpeed + Random.Range(-0.25f, 0.25f);
+        this.carryCapacity = carryCapacity;
+        this.farthestCheckpoint = farthestCheckpoint;
+        this.scroungingTimerLength = scroungingTimerLength + Random.Range(-1f, 1f);
+        this.diverSpawner = diverSpawner;
         currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
     }
 
@@ -106,6 +112,7 @@ public class Diver : MonoBehaviour
                 else
                 {
                     GameMaster.instance.IncrementShellCount(carryCapacity);
+                    diverSpawner.currentActiveDiverCount--;
                     Destroy(gameObject);
                 }
             }
