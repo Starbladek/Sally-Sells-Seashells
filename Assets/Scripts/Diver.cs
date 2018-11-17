@@ -5,9 +5,8 @@ using UnityEngine;
 public class Diver : MonoBehaviour
 {
     public float speedOfMovement;
-    public float lungCapacity;
     public float populationCapacity;
-    public float carryCapacity;
+    public int carryCapacity;
 
     Vector2 startPos;
     Vector2 checkpointOne;
@@ -41,7 +40,7 @@ public class Diver : MonoBehaviour
         if (!isScrounging)
         {
             transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
-            lerpTime += 0.01f;
+            lerpTime += speedOfMovement * Time.deltaTime;
         }
 
         if (lerpTime > 1)
@@ -66,6 +65,7 @@ public class Diver : MonoBehaviour
                     break;
 
                 case 4:
+                    GameMaster.instance.IncrementShellCount((int)carryCapacity);
                     Destroy(gameObject);
                     break;
             }
