@@ -20,8 +20,12 @@ public class DiverSpawner : MonoBehaviour
 
     public void IncreaseFarthestCheckpoint()
     {
-        farthestCheckpoint++;
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraHandler>().UpdateMilestonePosition(farthestCheckpoint);
+        if (farthestCheckpoint < checkpointObjects.Count - 2)
+        {
+            farthestCheckpoint++;
+            GameMaster.instance.farthestCheckpoint = farthestCheckpoint;
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraHandler>().SetToMilestonePosition(farthestCheckpoint);
+        }
     }
 
     void OnMouseDown()

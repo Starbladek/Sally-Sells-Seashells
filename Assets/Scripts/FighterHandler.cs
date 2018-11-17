@@ -70,10 +70,8 @@ public class FighterHandler : MonoBehaviour
     {
         if (transform.position.x <= -2.75f && transform.position.y >= 7.85f)
         {
-            LeanTween.value(mainCamera.orthographicSize, cameraIdleSize, 1).setEase(LeanTweenType.easeOutQuad).setOnUpdate((float val) =>
-            {
-                mainCamera.orthographicSize = val;
-            });
+            mainCamera.GetComponent<CameraHandler>().ChangeFollowTarget(null);
+            mainCamera.GetComponent<CameraHandler>().SetToMilestonePosition(GameMaster.instance.farthestCheckpoint);
 
             myRigidbody.bodyType = RigidbodyType2D.Kinematic;
             LeanTween.moveX(gameObject, idleStart.x, 1f);

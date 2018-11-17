@@ -31,7 +31,7 @@ public class CameraHandler : MonoBehaviour
         followTarget = newTarget;
     }
 
-    public void UpdateMilestonePosition(int newFarthestCheckpoint)
+    public void SetToMilestonePosition(int newFarthestCheckpoint)
     {
         LeanTween.value(cameraRef.orthographicSize, milestoneSizes[newFarthestCheckpoint], 1).setOnUpdate((float val) =>
         {

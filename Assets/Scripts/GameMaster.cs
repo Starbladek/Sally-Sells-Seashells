@@ -6,6 +6,8 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
     int shellCount;
+    [HideInInspector]
+    public int farthestCheckpoint;
 
 
 
