@@ -2,19 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraHandler : MonoBehaviour {
+public class CameraHandler : MonoBehaviour
+{
+    GameObject followTarget;
+    float smoothTime = 0.15f;
+    Vector2 velocity = Vector2.zero;
 
-    public GameObject player;
-    
-    // Use this for initialization
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        if (followTarget != null)
+        {
+            Vector2 targetPosition = new Vector2(followTarget.transform.position.x, followTarget.transform.position.y);
+            transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        }
+    }
+
+    public void ChangeFollowTarget(GameObject newTarget)
+    {
+        followTarget = newTarget;
     }
 }

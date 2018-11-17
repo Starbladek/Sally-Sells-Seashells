@@ -12,12 +12,20 @@ public class FighterHandler : MonoBehaviour
     public Vector2 activeStart;
 
     Rigidbody2D myRigidbody;
-    SpriteRenderer mySpriteRenderer;
+    public LayerMask sharkMask;
+
+    Camera mainCamera;
+    float cameraIdleSize;
+    public float cameraActiveSize;
+
+
 
     void Start ()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-        mySpriteRenderer = GetComponent<SpriteRenderer>();
+
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        cameraIdleSize = mainCamera.orthographicSize;
 	}
 	
 	void Update ()
@@ -40,20 +48,21 @@ public class FighterHandler : MonoBehaviour
         float hMovement = Input.GetAxis("Horizontal") * speed;
         float vMovement = Input.GetAxis("Vertical") * speed;
         myRigidbody.velocity = new Vector2(hMovement, vMovement);
+        
     }
 
     void Attacc()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            // ????
-            if (Physics2D.Raycast(transform.position, Vector2.right, 10))
+            int direction = (int)Mathf.Sign(myRigidbody.velocity.x);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 1, sharkMask);
+            Debug.DrawRay(transform.position, Vector2.right * direction, Color.red);
+
+            if (hit)
             {
-                Debug.DrawRay(transform.position, Vector2.right * 10 * 3, Color.red);
-                print("Shark");
+                print("Boink??");
             }
-            else
-                print("Miss");
         }
     }
 
@@ -61,6 +70,11 @@ public class FighterHandler : MonoBehaviour
     {
         if (transform.position.x <= -2.75f && transform.position.y >= 7.85f)
         {
+            LeanTween.value(mainCamera.orthographicSize, cameraIdleSize, 1).setEase(LeanTweenType.easeOutQuad).setOnUpdate((float val) =>
+            {
+                mainCamera.orthographicSize = val;
+            });
+
             myRigidbody.bodyType = RigidbodyType2D.Kinematic;
             LeanTween.moveX(gameObject, idleStart.x, 1f);
             LeanTween.moveY(gameObject, idleStart.y + 0.5f, 0.5f).setEase(LeanTweenType.linear).setOnComplete(() =>
@@ -77,6 +91,12 @@ public class FighterHandler : MonoBehaviour
     {
         if (state == State.Idle)
         {
+            LeanTween.value(mainCamera.orthographicSize, cameraActiveSize, 1).setEase(LeanTweenType.easeOutQuad).setOnUpdate((float val) =>
+            {
+                mainCamera.orthographicSize = val;
+            });
+            mainCamera.GetComponent<CameraHandler>().ChangeFollowTarget(gameObject);
+
             LeanTween.moveX(gameObject, activeStart.x, 1.5f);
             LeanTween.moveY(gameObject, idleStart.y + 1f, 0.5f).setEase(LeanTweenType.easeOutCubic).setOnComplete(() =>
             {
