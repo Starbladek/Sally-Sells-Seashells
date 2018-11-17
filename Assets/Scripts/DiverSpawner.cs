@@ -15,6 +15,8 @@ public class DiverSpawner : MonoBehaviour
     public List<GameObject> checkpointObjects;
 
     public GameObject diverPrefab;
+    public Sprite normalSprite;
+    public Sprite hoverSprite;
 
 
 
@@ -26,6 +28,16 @@ public class DiverSpawner : MonoBehaviour
             GameMaster.instance.farthestCheckpoint = farthestCheckpoint;
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraHandler>().SetToMilestonePosition(farthestCheckpoint);
         }
+    }
+
+    void OnMouseEnter()
+    {
+        GetComponent<SpriteRenderer>().sprite = hoverSprite;
+    }
+
+    void OnMouseExit()
+    {
+        GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
     void OnMouseDown()

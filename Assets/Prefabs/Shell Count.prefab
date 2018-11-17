@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222940607177483392}
   - component: {fileID: 114004850499451404}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Shell Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
