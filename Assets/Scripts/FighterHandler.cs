@@ -15,7 +15,6 @@ public class FighterHandler : MonoBehaviour
     public LayerMask sharkMask;
 
     Camera mainCamera;
-    float cameraIdleSize;
     public float cameraActiveSize;
 
 
@@ -23,9 +22,7 @@ public class FighterHandler : MonoBehaviour
     void Start ()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        cameraIdleSize = mainCamera.orthographicSize;
 	}
 	
 	void Update ()
@@ -56,12 +53,12 @@ public class FighterHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             int direction = (int)Mathf.Sign(myRigidbody.velocity.x);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 1, sharkMask);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 2, sharkMask);
             Debug.DrawRay(transform.position, Vector2.right * direction, Color.red);
 
             if (hit)
             {
-                print("Boink??");
+                Destroy(hit.collider.gameObject);
             }
         }
     }

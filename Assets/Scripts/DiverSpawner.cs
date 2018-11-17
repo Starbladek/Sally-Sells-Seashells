@@ -46,12 +46,21 @@ public class DiverSpawner : MonoBehaviour
         if (currentActiveDiverCount < maximumActiveDiverCount)
         {
             currentActiveDiverCount++;
-            IncreaseFarthestCheckpoint();
+            //IncreaseFarthestCheckpoint();
 
             GameObject diver = Instantiate(diverPrefab, transform.position, Quaternion.identity);
             Diver diverComp = diver.GetComponent<Diver>();
             diverComp.checkpoints = new List<GameObject>(checkpointObjects);
             diverComp.Initialize(movementSpeed, carryCapacity, farthestCheckpoint, scroungingTimerLength, this);
+        }
+    }
+
+    public void BuyNextCheckpoint()
+    {
+        if (GameMaster.instance.shellCount >= 25)
+        {
+            GameMaster.instance.DecrementShellCount(25);
+            IncreaseFarthestCheckpoint();
         }
     }
 }

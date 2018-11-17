@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
-    int shellCount;
+    [HideInInspector]
+    public int shellCount;
     [HideInInspector]
     public int farthestCheckpoint;
 
@@ -27,7 +29,10 @@ public class GameMaster : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Main_Menu");
+        }
     }
 
 
