@@ -32,12 +32,12 @@ public class GameMaster : MonoBehaviour
     public void IncrementShellCount(int amount)
     {
         shellCount += amount;
-        print(shellCount);
+        //print(shellCount);
     }
 
     public void DecrementShellCount(int amount)
     {
         shellCount -= amount;
-        print(shellCount);
+        //print(shellCount);
     }
 }

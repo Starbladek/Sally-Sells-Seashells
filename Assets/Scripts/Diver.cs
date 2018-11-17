@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Diver : MonoBehaviour
 {
-    public float speedOfMovement;
+    public float movementSpeed;
     public int carryCapacity;
 
     Vector2 startPos;
     public List<GameObject> checkpoints;
+    public int farthestCheckpoint;
     int checkpointNum = 0;
 
     Vector2 prevCheckpoint;
@@ -20,29 +21,36 @@ public class Diver : MonoBehaviour
     public float scroungingTimerLength;
     float scroungingTimer;
 
+    Animator animator;
+
 
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         startPos = transform.position;
         prevCheckpoint = startPos;
-        currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
+        //currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
         scroungingTimer = scroungingTimerLength;
+    }
+
+    public void Initialize()
+    {
+        currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
     }
 
     void Update()
     {
         if (divingDown)
         {
-            lerpTime += speedOfMovement * Time.deltaTime;
+            lerpTime += movementSpeed * Time.deltaTime;
             transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
 
             if (lerpTime >= 1)
             {
+                animator.SetBool("isSwimming", true);
                 lerpTime = 0;
-                print(checkpointNum);
-                print(checkpoints.Count);
-                if (checkpointNum < checkpoints.Count)
+                if (checkpointNum < farthestCheckpoint)
                 {
                     checkpointNum++;
                     prevCheckpoint = currentTargetCheckpoint;
@@ -51,9 +59,10 @@ public class Diver : MonoBehaviour
                 else
                 {
                     //We've reached the last checkpoint
-                    print("Starting to scrounge...");
+                    //print("Starting to scrounge...");
                     divingDown = false;
                     isScrounging = true;
+                    animator.SetBool("isScrounging", true);
                 }
             }
         }
@@ -63,13 +72,16 @@ public class Diver : MonoBehaviour
             if (scroungingTimer <= 0)
             {
                 isScrounging = false;
-                prevCheckpoint = checkpoints[checkpoints.Count - 1].transform.position;
-                currentTargetCheckpoint = checkpoints[checkpoints.Count - 2].transform.position;
+                animator.SetBool("isScrounging", false);
+                GetComponent<SpriteRenderer>().flipX = false;
+                checkpointNum--;
+                prevCheckpoint = checkpoints[farthestCheckpoint].transform.position;
+                currentTargetCheckpoint = checkpoints[farthestCheckpoint - 1].transform.position;
             }
         }
         else
         {
-            lerpTime += speedOfMovement * Time.deltaTime;
+            lerpTime += movementSpeed * Time.deltaTime;
             transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
 
             if (lerpTime >= 1)
@@ -80,6 +92,7 @@ public class Diver : MonoBehaviour
                     checkpointNum--;
                     if (checkpointNum == 0)
                     {
+                        animator.SetBool("isSwimming", true);
                         prevCheckpoint = currentTargetCheckpoint;
                         currentTargetCheckpoint = startPos;
                     }
