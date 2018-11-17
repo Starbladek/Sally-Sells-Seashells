@@ -79,6 +79,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shellValue: 5
+  minLifeLength: 6
+  maxLifeLength: 8
+  shellSpawner: {fileID: 0}
 --- !u!212 &212694306175087996
 SpriteRenderer:
   m_ObjectHideFlags: 1
