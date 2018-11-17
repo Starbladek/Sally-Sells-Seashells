@@ -5,17 +5,16 @@ using UnityEngine;
 public class Diver : MonoBehaviour
 {
     public float speedOfMovement;
-    public float populationCapacity;
     public int carryCapacity;
 
     Vector2 startPos;
-    Vector2 checkpointOne;
-    Vector2 checkpointTwo;
-    int phase = 0;
+    public List<Vector2> checkpoints;
+    int checkpointNum = 0;
 
     Vector2 prevCheckpoint;
     Vector2 currentTargetCheckpoint;
     float lerpTime = 0;
+    bool divingDown = true;
 
     bool isScrounging;
     public float scroungingTimerLength;
@@ -25,67 +24,84 @@ public class Diver : MonoBehaviour
 
     void Start()
     {
+        checkpoints = new List<Vector2>();
         startPos = transform.position;
-        checkpointOne = new Vector2(transform.position.x - 5f, transform.position.y - 1f);
-        checkpointTwo = new Vector2(checkpointOne.x - 1f, checkpointTwo.y - 8f);
-
         prevCheckpoint = startPos;
-        currentTargetCheckpoint = checkpointOne;
-
         scroungingTimer = scroungingTimerLength;
+    }
+
+    public void Initialize()
+    {
+        currentTargetCheckpoint = checkpoints[checkpointNum];
     }
 
     void Update()
     {
-        if (!isScrounging)
+        if (divingDown)
         {
-            transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
             lerpTime += speedOfMovement * Time.deltaTime;
-        }
+            transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
 
-        if (lerpTime > 1)
-        {
-            lerpTime = 0;
-            phase++;
-
-            switch(phase)
+            if (lerpTime >= 1)
             {
-                case 1:
-                    prevCheckpoint = checkpointOne;
-                    currentTargetCheckpoint = checkpointTwo;
-                    break;
-
-                case 2:
+                lerpTime = 0;
+                print(checkpointNum);
+                print(checkpoints.Count);   //Why?? Is?? this????? zero???????????????????????????
+                if (checkpointNum < checkpoints.Count)
+                {
+                    checkpointNum++;
+                    prevCheckpoint = currentTargetCheckpoint;
+                    currentTargetCheckpoint = checkpoints[checkpointNum];
+                }
+                else
+                {
+                    //We've reached the last checkpoint
+                    print("Starting to scrounge...");
+                    divingDown = false;
                     isScrounging = true;
-                    break;
-
-                case 3:
-                    prevCheckpoint = checkpointOne;
-                    currentTargetCheckpoint = startPos;
-                    break;
-
-                case 4:
-                    GameMaster.instance.IncrementShellCount((int)carryCapacity);
-                    Destroy(gameObject);
-                    break;
+                }
             }
         }
-
-        if (isScrounging)
+        else if (isScrounging)
         {
             scroungingTimer -= Time.deltaTime;
             if (scroungingTimer <= 0)
             {
                 isScrounging = false;
-                prevCheckpoint = checkpointTwo;
-                currentTargetCheckpoint = checkpointOne;
+                prevCheckpoint = checkpoints[checkpoints.Count - 1];
+                currentTargetCheckpoint = checkpoints[checkpoints.Count - 2];
             }
         }
-
-        /*LeanTween.delayedCall(gameObject, meteorSmoke.length, () =>
+        else
         {
-            Destroy(gameObject);
-        });*/
+            lerpTime += speedOfMovement * Time.deltaTime;
+            transform.position = Vector2.Lerp(prevCheckpoint, currentTargetCheckpoint, lerpTime);
+
+            if (lerpTime >= 1)
+            {
+                lerpTime = 0;
+                if (checkpointNum > 0)
+                {
+                    checkpointNum--;
+                    if (checkpointNum == 0)
+                    {
+                        prevCheckpoint = currentTargetCheckpoint;
+                        currentTargetCheckpoint = startPos;
+                    }
+                    else
+                    {
+                        prevCheckpoint = currentTargetCheckpoint;
+                        currentTargetCheckpoint = checkpoints[checkpointNum];
+                    }
+                    
+                }
+                else
+                {
+                    GameMaster.instance.IncrementShellCount(carryCapacity);
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
 }
  
