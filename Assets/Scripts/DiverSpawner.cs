@@ -11,14 +11,19 @@ public class DiverSpawner : MonoBehaviour
 
     public GameObject diverPrefab;
 
+    void Start()
+    {
+        for (int i = 0; i < checkpointObjects.Length; i++)
+        {
+            diverPrefab.GetComponent<Diver>().checkpoints.Add(checkpointObjects[i]);
+        }
+    }
+
     void OnMouseDown()
     {
         if (currentActiveDiverCount < maximumActiveDiverCount)
         {
-            GameObject diver = Instantiate(diverPrefab, transform.position, Quaternion.identity);
-            diver.GetComponent<Diver>().checkpoints.Add(checkpointObjects[0].transform.position);
-            diver.GetComponent<Diver>().checkpoints.Add(checkpointObjects[1].transform.position);
-            diver.GetComponent<Diver>().Initialize();
+            Instantiate(diverPrefab, transform.position, Quaternion.identity);
         }
     }
 }

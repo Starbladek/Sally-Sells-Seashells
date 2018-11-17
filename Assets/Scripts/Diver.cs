@@ -8,7 +8,7 @@ public class Diver : MonoBehaviour
     public int carryCapacity;
 
     Vector2 startPos;
-    public List<Vector2> checkpoints;
+    public List<GameObject> checkpoints;
     int checkpointNum = 0;
 
     Vector2 prevCheckpoint;
@@ -24,15 +24,10 @@ public class Diver : MonoBehaviour
 
     void Start()
     {
-        checkpoints = new List<Vector2>();
         startPos = transform.position;
         prevCheckpoint = startPos;
+        currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
         scroungingTimer = scroungingTimerLength;
-    }
-
-    public void Initialize()
-    {
-        currentTargetCheckpoint = checkpoints[checkpointNum];
     }
 
     void Update()
@@ -46,12 +41,12 @@ public class Diver : MonoBehaviour
             {
                 lerpTime = 0;
                 print(checkpointNum);
-                print(checkpoints.Count);   //Why?? Is?? this????? zero???????????????????????????
+                print(checkpoints.Count);
                 if (checkpointNum < checkpoints.Count)
                 {
                     checkpointNum++;
                     prevCheckpoint = currentTargetCheckpoint;
-                    currentTargetCheckpoint = checkpoints[checkpointNum];
+                    currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
                 }
                 else
                 {
@@ -68,8 +63,8 @@ public class Diver : MonoBehaviour
             if (scroungingTimer <= 0)
             {
                 isScrounging = false;
-                prevCheckpoint = checkpoints[checkpoints.Count - 1];
-                currentTargetCheckpoint = checkpoints[checkpoints.Count - 2];
+                prevCheckpoint = checkpoints[checkpoints.Count - 1].transform.position;
+                currentTargetCheckpoint = checkpoints[checkpoints.Count - 2].transform.position;
             }
         }
         else
@@ -91,7 +86,7 @@ public class Diver : MonoBehaviour
                     else
                     {
                         prevCheckpoint = currentTargetCheckpoint;
-                        currentTargetCheckpoint = checkpoints[checkpointNum];
+                        currentTargetCheckpoint = checkpoints[checkpointNum].transform.position;
                     }
                     
                 }
