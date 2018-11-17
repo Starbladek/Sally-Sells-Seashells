@@ -31,8 +31,8 @@ public class ShellSpawner : MonoBehaviour
             else
                 shellNum = 3;
 
-            GameObject newShell = Instantiate(shellPrefabs[shellNum],
-                new Vector2(-2.15f + Random.Range(0, 0.5f), 0.75f - Random.Range(0, 0.3f)),
+            Instantiate(shellPrefabs[shellNum],
+                new Vector2(-10f + Random.Range(0, 3f), 7f - Random.Range(0, 4f)),
                 Quaternion.identity);
             shellSpawnTimer += shellSpawnTimerLength;
         }

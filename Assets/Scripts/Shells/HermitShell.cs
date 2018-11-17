@@ -5,14 +5,19 @@ using UnityEngine;
 public class HermitShell : MonoBehaviour
 {
     public int shellValue;
+    bool clicked;
 
     void OnMouseDown()
     {
-        GameMaster.instance.IncrementShellCount(1);
-        LeanTween.alpha(gameObject, 0, 1);
-        LeanTween.scale(gameObject, transform.localScale * 3, 1).setEase(LeanTweenType.easeOutExpo).setOnComplete(() =>
+        if (!clicked)
         {
-            Destroy(gameObject);
-        });
+            clicked = true;
+            GameMaster.instance.IncrementShellCount(shellValue);
+            LeanTween.alpha(gameObject, 0, 1);
+            LeanTween.scale(gameObject, transform.localScale * 3, 1).setEase(LeanTweenType.easeOutExpo).setOnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
+        }
     }
 }

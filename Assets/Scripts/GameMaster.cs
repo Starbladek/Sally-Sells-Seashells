@@ -5,8 +5,6 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
-
-    ShellHandler shellHandler;
     int shellCount;
 
 
@@ -22,8 +20,6 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        shellHandler = GetComponent<ShellHandler>();
     }
 
     void Update()

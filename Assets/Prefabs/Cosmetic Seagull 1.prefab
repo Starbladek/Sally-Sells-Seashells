@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212738256277318300}
   - component: {fileID: 114410233345103098}
   m_Layer: 0
-  m_Name: Cosmetic Seagull
+  m_Name: Cosmetic Seagull 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
