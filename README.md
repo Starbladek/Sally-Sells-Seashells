@@ -1,4 +1,4 @@
-# Sally-Sells-Seashells
+# GJ-Sally-Sells-Seashells
 Unity game submission for the CSULB 24 Hour Game Jam! In this game, you play as a diver who collects shells by gathering them yourself or by protecting divers who collect shells for you from sharks.
 
 Play it here: https://starbladek.itch.io/sally-sells-seashells
